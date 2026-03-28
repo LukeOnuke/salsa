@@ -1,0 +1,15 @@
+# SALSA - Serviced Automatic Log Sorting Aplication
+
+## Setup
+Example `.env`
+```env
+SERVER_PORT=3000
+DATABASE_HOST=localhost
+DATABASE_PORT=3306
+DATABASE_USER=root
+DATABASE_PASSWORD=root
+DATABASE_NAME=salsa
+JWT_SECRET=25b6d7cb-ca0b-8e0d-8f54-05640ade4d44
+JWT_ACCESS_TTL=12s
+JWT_REFRESH_TTL=7d
+```
