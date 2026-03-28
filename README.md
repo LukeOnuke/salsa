@@ -1,4 +1,8 @@
 # SALSA - Serviced Automatic Log Sorting Aplication
+> [!INFO]
+> This project is very much a work in progress still.
+
+Privatly sift through thausands of log messages across your entire infrastructure in real time whilst keeping all your private data in your network. Categorises incomming log messages with local self hosted LLM models. Currently tooled for LLAMA.
 
 ## Setup
 Example `.env`
