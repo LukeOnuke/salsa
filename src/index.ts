@@ -6,6 +6,7 @@ import { AppDataSource } from './db'
 import { UserService } from './services/user.service'
 import { UserRoute } from './routes/user.route'
 import { LogEntryRoute } from './routes/log-entry.route'
+import oolama from 'ollama'
 
 const app = express()
 app.use(cors())
@@ -16,8 +17,6 @@ app.use(express.json())
 app.use(UserService.validateToken)
 app.use('/api/user', UserRoute)
 app.use('/api/logentry', LogEntryRoute)
-
-
 
 // 404 Not Found
 app.get('{/*path}', function (req, res) {
