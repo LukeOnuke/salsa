@@ -7,14 +7,15 @@ import type { Response } from "express";
 import { dataExists } from "../utils";
 
 const repo = AppDataSource.getRepository(User)
-const tokenSecret = process.env.JWT_SECRET
-const accessTTL = process.env.JWT_ACCESS_TTL
-const refreshTTL = process.env.JWT_REFRESH_TTL
+const tokenSecret = process.env.JWT_SECRET as string
+const accessTTL = process.env.JWT_ACCESS_TTL as string
+const refreshTTL = process.env.JWT_REFRESH_TTL as string
 
 export class UserService {
 
     static async login(email: string, password: string) {
         const user = await this.getUserByEmail(email)
+               
         if (await bcrypt.compare(password, user.password)) {
             const payload = {
                 id: user.userId,
@@ -49,6 +50,7 @@ export class UserService {
     }
 
     static async register(model: User) {
+        console.log("Šifra na ulazu u register:", `"${model.password}"`);
         const hashed = await bcrypt.hash(model.password, 12)
 
         await repo.save({

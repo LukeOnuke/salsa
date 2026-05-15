@@ -3,6 +3,7 @@ import { LogEntry } from "../entities/LogEntry";
 import { Process } from "../entities/Process";
 import type { DigestedLogEntry } from "../models/digested-log-entry.model";
 import type { LogLevel } from "../models/log-level.model";
+import type { Pagenated } from "../models/pagenated.model";
 import type { DigestRequest } from "../models/request/logentry/digest-request.model";
 import ollama from 'ollama';
 
@@ -50,6 +51,24 @@ export class LogEntryService {
                 logEntryId: "DESC"
             }
         });
+    }
+
+    static async getLogsPagenated(pageSize: number, pageNumber: number): Promise<Pagenated<LogEntry>>{
+        const [logs, totalItems] = await logEntryRepo.findAndCount({
+            skip: (pageNumber - 1) * pageSize,  // reduce 1 from page no.
+                                                // so that page count
+                                                // starts from one
+            take: pageSize,
+            relations: {
+                process: true
+            }
+        })
+
+        return {
+            currentPage: pageNumber,
+            totalPages: totalItems / pageSize,
+            entries: logs
+        } as Pagenated<LogEntry>
     }
 
     static async processLogEntry(request: DigestRequest) {

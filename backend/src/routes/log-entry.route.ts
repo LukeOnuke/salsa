@@ -23,3 +23,12 @@ LogEntryRoute.post('/digest', async (req: any, res) => {
         return;
     })
 })
+
+LogEntryRoute.get('/fetch', async (req: any, res) => {
+    await defineRequest(res, async ()=>{
+        const page = parseInt(req.query.page as string) || 1;
+        const limit = parseInt(req.query.limit as string) || 10;
+
+        return LogEntryService.getLogsPagenated(limit, page);
+    })
+})
