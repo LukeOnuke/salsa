@@ -32,3 +32,11 @@ LogEntryRoute.get('/fetch', async (req: any, res) => {
         return LogEntryService.getLogsPagenated(limit, page);
     })
 })
+
+LogEntryRoute.get('/fetch-singular/:id', async (req: any, res) => {
+    await defineRequest(res, async ()=>{
+        const { id } = req.params;
+        console.log(id)
+        return LogEntryService.getLogById(id);
+    })
+})

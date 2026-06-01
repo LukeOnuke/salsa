@@ -9,6 +9,7 @@ import NewReservation from '@/views/reservation/NewReservation.vue'
 import ReservationView from '@/views/reservation/ReservationView.vue'
 import EditReservation from '@/views/reservation/EditReservation.vue'
 import ReservationDetails from '@/views/reservation/ReservationDetails.vue'
+import LogView from '@/views/log/LogView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -18,7 +19,7 @@ const router = createRouter({
       name: 'home',
       component: HomeView,
       meta: {
-        title: 'Početna'
+        title: 'Home'
       }
     },
     {
@@ -26,7 +27,7 @@ const router = createRouter({
       name: 'login',
       component: LoginView,
       meta: {
-        title: 'Prijava'
+        title: 'Log-in'
       }
     },
     {
@@ -34,7 +35,7 @@ const router = createRouter({
       name: 'register',
       component: RegisterView,
       meta: {
-        title: 'Registracija'
+        title: 'Register'
       }
     },
     {
@@ -42,7 +43,15 @@ const router = createRouter({
       name: 'user',
       component: UserView,
       meta: {
-        title: 'Korisnik'
+        title: 'User'
+      }
+    },
+    {
+      path: '/log/:id',
+      name: 'log',
+      component: LogView,
+      meta: {
+        title: 'View log'
       }
     },
     {
@@ -54,7 +63,7 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   if (to.meta) {
-    document.title = `${to.meta.title} :: PSEP 2025`
+    document.title = `${to.meta.title} - SALSA`
   }
 
   next()

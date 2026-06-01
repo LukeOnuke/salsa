@@ -1,9 +1,12 @@
 <script setup lang="ts">
+import Navigation from '@/components/Navigation.vue';
+
 const year = new Date().getFullYear()
 </script>
 
 <template>
-  <div class="container">
+  <Navigation />
+  <div class="container mt-3">
     <RouterView />
     <p class="text-center mt-3">
       COPYRIGHT &copy; {{ year }} Luka Kresoja<br>

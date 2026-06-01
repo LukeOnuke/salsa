@@ -26,6 +26,7 @@ export class Process {
     @Column({
         type: 'varchar',
         length: 512,
+        select: false,
         default: () => "(HEX(RANDOM_BYTES(256)))"
     })
     secret: string;

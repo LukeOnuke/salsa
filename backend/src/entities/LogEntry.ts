@@ -52,6 +52,7 @@ export class LogEntry {
     @ManyToOne(() => Process, (process) => process.logEntries, {
         onDelete: "RESTRICT",
         onUpdate: "CASCADE",
+        eager: true
     })
     @JoinColumn([{ name: "process_id", referencedColumnName: "processId" }])
     process: Relation<Process>;

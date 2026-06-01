@@ -61,6 +61,9 @@ export class LogEntryService {
             take: pageSize,
             relations: {
                 process: true
+            },
+            order: {
+                logEntryId: "DESC"
             }
         })
 
@@ -69,6 +72,19 @@ export class LogEntryService {
             totalPages: totalItems / pageSize,
             entries: logs
         } as Pagenated<LogEntry>
+    }
+
+    static async getLogById(id: number){
+        return await logEntryRepo.findOne({
+            where:{logEntryId: id},
+            relations:{
+                process: {
+                    server: {
+                        location: true
+                    }
+                }
+            }
+        })
     }
 
     static async processLogEntry(request: DigestRequest) {

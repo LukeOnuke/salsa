@@ -21,28 +21,42 @@ function getNext() {
     if (logs.value) getLogs(10, logs.value.currentPage + 1)
 }
 
+function sanitize(unsafeText: string): string {
+    if (!unsafeText) return '';
+
+    return unsafeText
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;"); // or &apos;
+}
+
 getLogs(10, 1)
 </script>
 
 <template>
-    <Navigation />
+    
     <div class="container">
         <section v-if="logs">
             <div class="card mb-3" v-for="log in logs.entries">
-                <div class="card-header text-white" v-bind:class="{'bg-info' : log.severity === LogLevel.INFO, 'bg-warning': log.severity === LogLevel.WARN, 'bg-danger': log.severity === LogLevel.ERROR, 'bg-purple': log.severity === LogLevel.FATAL}">
-                    <span>{{ log.processId }} | {{ log.severity }} | {{ log.importance }}</span>
+                <div class="card-header text-white"
+                    v-bind:class="{ 'bg-info': log.severity === LogLevel.INFO, 'bg-warning': log.severity === LogLevel.WARN, 'bg-danger': log.severity === LogLevel.ERROR, 'bg-purple': log.severity === LogLevel.FATAL }">
+                    <span class="badge bg-secondary">{{ log.process.name }}</span> <span>{{ log.severity }} | {{
+                        log.importance }}</span>
                 </div>
                 <div class="card-body">
-                    <p>⚠️ For now Cross Site Scripting is possible since the content isnt sanitised!</p>
                     <pre>
-                        {{ log.content }}
+                        {{ sanitize(log.content) }}
                     </pre>
                 </div>
                 <div class="card-footer">
-                    <span>{{ new Date(log.createdAt).toLocaleString("sr-RS") }}</span>
-                    <RouterLink :to="`/log/${log.logEntryId}`" class="btn btn-primary" role="button">
-                        <i class="fa-solid fa-right-from-bracket"></i> More
-                    </RouterLink>
+                    <div class="float-end">
+                        <span class="">{{ new Date(log.createdAt).toLocaleString("sr-RS") }}</span>
+                        <RouterLink :to="`/log/${log.logEntryId}`" class="btn btn-primary ml-5" role="button">
+                            <i class="fa-solid fa-right-from-bracket"></i> More
+                        </RouterLink>
+                    </div>
                 </div>
             </div>
             <ul class="pagination justify-content-center">
@@ -53,13 +67,13 @@ getLogs(10, 1)
                 </li>
                 <li class="page-item" v-if="logs.currentPage > 1">
                     <RouterLink class="page-link" to="#">
-                        {{ logs.currentPage - 1}}
+                        {{ logs.currentPage - 1 }}
                     </RouterLink>
                 </li>
                 <li class="page-item disabled"><span class="page-link" href="#">{{ logs?.currentPage }}</span></li>
                 <li class="page-item" v-if="logs.totalPages != logs.currentPage">
                     <RouterLink class="page-link" to="#">
-                        {{logs.currentPage + 1 }}
+                        {{ logs.currentPage + 1 }}
                     </RouterLink>
                 </li>
                 <li class="page-item" v-if="logs.totalPages != logs.currentPage">
