@@ -1,5 +1,6 @@
 import {
     Column,
+    DeleteDateColumn,
     Entity,
     Index,
     JoinColumn,
@@ -45,6 +46,9 @@ export class LogEntry {
         default: () => "CURRENT_TIMESTAMP",
     })
     createdAt: Date;
+
+    @DeleteDateColumn()
+    deletedAt: Date;
 
     @Column("int", { name: "process_id", unsigned: true })
     processId: number;

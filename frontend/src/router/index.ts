@@ -10,6 +10,7 @@ import ReservationView from '@/views/reservation/ReservationView.vue'
 import EditReservation from '@/views/reservation/EditReservation.vue'
 import ReservationDetails from '@/views/reservation/ReservationDetails.vue'
 import LogView from '@/views/log/LogView.vue'
+import EditLog from '@/views/log/EditLog.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -52,6 +53,14 @@ const router = createRouter({
       component: LogView,
       meta: {
         title: 'View log'
+      }
+    },
+    {
+      path: '/log/edit/:id',
+      name: 'edit',
+      component: EditLog,
+      meta: {
+        title: 'Edit'
       }
     },
     {

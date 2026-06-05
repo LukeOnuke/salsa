@@ -35,23 +35,28 @@ export function showError(message: string) {
     })
 }
 
-export function showConfirm(message: string, callback: Function) {
+export function showConfirm(message: string, callback: Function, showConfirmation?: boolean,) {
     Swal.fire({
         title: message,
         showCancelButton: true,
-        confirmButtonText: 'Da, želim',
-        cancelButtonText: 'Ne, odustani',
+        confirmButtonText: 'Yes',
+        cancelButtonText: 'No',
         icon: "question",
         customClass: bootstrapClasses
     }).then(result => {
         if (result.isConfirmed) {
             callback()
-            Swal.fire({
-                title: "Uspešno izvršeno",
-                confirmButtonText: 'Uredu',
+            if(showConfirmation) Swal.fire({
+                title: "Executed sucsessfully.",
+                confirmButtonText: 'Ok',
                 icon: "success",
-                customClass: bootstrapClasses
+                customClass: bootstrapClasses,
+                timer: 2000
             })
         }
     })
+}
+
+export function isDebugging(): boolean{
+    return false;
 }

@@ -1,5 +1,6 @@
 import {
     Column,
+    DeleteDateColumn,
     Entity,
     Index,
     JoinColumn,
@@ -19,6 +20,9 @@ export class Server {
 
     @Column("varchar", { name: "name", length: 128 })
     name: string;
+
+    @DeleteDateColumn()
+    deletedAt: Date;
 
     @Column("int", { name: "location_id", unsigned: true })
     locationId: number;

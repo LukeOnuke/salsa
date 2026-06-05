@@ -1,5 +1,6 @@
 import {
     Column,
+    DeleteDateColumn,
     Entity,
     Index,
     JoinColumn,
@@ -30,6 +31,9 @@ export class Process {
         default: () => "(HEX(RANDOM_BYTES(256)))"
     })
     secret: string;
+
+    @DeleteDateColumn()
+    deletedAt: Date;
 
     @ManyToOne(() => Server, (server) => server.processes, {
         onDelete: "RESTRICT",

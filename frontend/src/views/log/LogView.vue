@@ -1,11 +1,13 @@
 <script lang="ts" setup>
 import type { LogEntry } from '@/models/logentry.model';
 import { LogEntryService } from '@/services/logentry.service';
-import { toLocalDatetimeInputString } from '@/utils';
+import { showConfirm, showError, toLocalDatetimeInputString } from '@/utils';
 import { ref } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
+import Swal from 'sweetalert2';
 
 const route = useRoute()
+const router = useRouter()
 const id = Number(route.params.id)
 
 const log = ref<LogEntry>()
@@ -24,9 +26,6 @@ LogEntryService.getLogById(id).then(resp => log.value = resp.data)
                         <RouterLink :to="`/log/edit/${log.logEntryId}`" class="btn btn-success ms-auto" role="button">
                             <i class="fa-regular fa-pen-to-square"></i>
                         </RouterLink>
-                        <RouterLink :to="`/log/delete/${log.logEntryId}`" class="btn btn-danger ms-3" role="button">
-                            <i class="fa-regular fa-trash-can"></i>
-                        </RouterLink>
                     </div>
                     <div class="card-body">
                         <p>Severity: <span class="fw-bold">{{ log.severity }}</span></p>
@@ -37,9 +36,7 @@ LogEntryService.getLogById(id).then(resp => log.value = resp.data)
                             <span class="badge text-bg-secondary">{{ new Date(log.createdAt).getTimezoneOffset() }}m to
                                 UTC</span>
                         </p>
-                        <pre class="card">
-                            {{ log.content }}
-                        </pre>
+                        <pre class="card">{{ log.content }}</pre>
                     </div>
                     <div class="card-footer text-muted">
                         Time: {{ log.createdAt }} - Id: {{ log.logEntryId }}
@@ -57,9 +54,6 @@ LogEntryService.getLogById(id).then(resp => log.value = resp.data)
                             </RouterLink>
                             <RouterLink :to="`/log/edit/${log.logEntryId}`" class="btn btn-success ms-3" role="button">
                                 <i class="fa-regular fa-pen-to-square"></i>
-                            </RouterLink>
-                            <RouterLink :to="`/log/delete/${log.logEntryId}`" class="btn btn-danger ms-3" role="button">
-                                <i class="fa-regular fa-trash-can"></i>
                             </RouterLink>
                         </div>
                         <div class="card-body">
@@ -80,9 +74,6 @@ LogEntryService.getLogById(id).then(resp => log.value = resp.data)
                             </RouterLink>
                             <RouterLink :to="`/log/edit/${log.logEntryId}`" class="btn btn-success ms-3" role="button">
                                 <i class="fa-regular fa-pen-to-square"></i>
-                            </RouterLink>
-                            <RouterLink :to="`/log/delete/${log.logEntryId}`" class="btn btn-danger ms-3" role="button">
-                                <i class="fa-regular fa-trash-can"></i>
                             </RouterLink>
                         </div>
                         <div class="card-body">
@@ -106,9 +97,6 @@ LogEntryService.getLogById(id).then(resp => log.value = resp.data)
                             </RouterLink>
                             <RouterLink :to="`/log/edit/${log.logEntryId}`" class="btn btn-success ms-3" role="button">
                                 <i class="fa-regular fa-pen-to-square"></i>
-                            </RouterLink>
-                            <RouterLink :to="`/log/delete/${log.logEntryId}`" class="btn btn-danger ms-3" role="button">
-                                <i class="fa-regular fa-trash-can"></i>
                             </RouterLink>
                         </div>
                         <div class="card-body">

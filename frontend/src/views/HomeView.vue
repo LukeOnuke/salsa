@@ -4,6 +4,7 @@ import { LogLevel, type LogEntry } from '@/models/logentry.model';
 import { ref } from 'vue';
 import type { Pagenated } from "@/models/pagenated.model";
 import { LogEntryService } from '@/services/logentry.service';
+import PagenatedNavigation from '@/components/PagenatedNavigation.vue';
 
 const logs = ref<Pagenated<LogEntry>>();
 
@@ -36,53 +37,32 @@ getLogs(10, 1)
 </script>
 
 <template>
-    
     <div class="container">
-        <section v-if="logs">
-            <div class="card mb-3" v-for="log in logs.entries">
+        <section>
+            <h1>Pagenated list of LogEntry</h1>
+            <p>Sorted by id desceding.</p>
+            <hr>
+        </section>
+
+        <main v-if="logs">
+            <section class="card mb-3" v-for="log in logs.entries">
                 <div class="card-header text-white"
                     v-bind:class="{ 'bg-info': log.severity === LogLevel.INFO, 'bg-warning': log.severity === LogLevel.WARN, 'bg-danger': log.severity === LogLevel.ERROR, 'bg-purple': log.severity === LogLevel.FATAL }">
                     <span class="badge bg-secondary">{{ log.process.name }}</span> <span>{{ log.severity }} | {{
                         log.importance }}</span>
                 </div>
                 <div class="card-body">
-                    <pre>
-                        {{ sanitize(log.content) }}
-                    </pre>
+                    <pre>{{ sanitize(log.content) }}</pre>
                 </div>
-                <div class="card-footer">
-                    <div class="float-end">
-                        <span class="">{{ new Date(log.createdAt).toLocaleString("sr-RS") }}</span>
-                        <RouterLink :to="`/log/${log.logEntryId}`" class="btn btn-primary ml-5" role="button">
-                            <i class="fa-solid fa-right-from-bracket"></i> More
-                        </RouterLink>
-                    </div>
+                <div class="card-footer d-flex align-items-center">
+                    <span class="">{{ new Date(log.createdAt).toLocaleString("sr-RS") }}</span>
+                    <RouterLink :to="`/log/${log.logEntryId}`" class="btn btn-primary ms-auto" role="button">
+                        <i class="fa-solid fa-right-from-bracket"></i> More
+                    </RouterLink>
                 </div>
-            </div>
-            <ul class="pagination justify-content-center">
-                <li class="page-item" v-if="logs.currentPage > 1">
-                    <RouterLink class="page-link" v-on:click="getPrevious()" to="#">
-                        Previous
-                    </RouterLink>
-                </li>
-                <li class="page-item" v-if="logs.currentPage > 1">
-                    <RouterLink class="page-link" to="#">
-                        {{ logs.currentPage - 1 }}
-                    </RouterLink>
-                </li>
-                <li class="page-item disabled"><span class="page-link" href="#">{{ logs?.currentPage }}</span></li>
-                <li class="page-item" v-if="logs.totalPages != logs.currentPage">
-                    <RouterLink class="page-link" to="#">
-                        {{ logs.currentPage + 1 }}
-                    </RouterLink>
-                </li>
-                <li class="page-item" v-if="logs.totalPages != logs.currentPage">
-                    <RouterLink class="page-link" v-on:click="getNext()" to="#">
-                        Next
-                    </RouterLink>
-                </li>
-            </ul>
-        </section>
+            </section>
+            <PagenatedNavigation :onPrevious="getPrevious" :onNext="getNext" :pagenatedData="logs" />
+        </main>
 
     </div>
     <!-- <Loading v-else /> -->

@@ -7,6 +7,7 @@ import { UserService } from './services/user.service'
 import { UserRoute } from './routes/user.route'
 import { LogEntryRoute } from './routes/log-entry.route'
 import oolama from 'ollama'
+import { ProcessRoute } from './routes/process.route'
 
 const app = express()
 app.use(cors())
@@ -18,6 +19,7 @@ app.use(express.static('public'))
 app.use(UserService.validateToken)
 app.use('/api/user', UserRoute)
 app.use('/api/logentry', LogEntryRoute)
+app.use('/api/process', ProcessRoute)
 
 // 404 Not Found
 app.get('{/*path}', function (req, res) {

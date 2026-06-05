@@ -11,4 +11,12 @@ export class LogEntryService {
     static async getLogById(id: number){
         return await UserService.useAxios<LogEntry>(`/logentry/fetch-singular/${id}`)
     }
+
+    static async deleteLogById(id: number){
+        await UserService.useAxios<LogEntry>(`/logentry/delete/${id}`, "delete")
+    }
+
+    static async updateLogEntry(logEntry: LogEntry){
+        await UserService.useAxios<LogEntry>(`/logentry/update/`, "put", logEntry)
+    }
 }

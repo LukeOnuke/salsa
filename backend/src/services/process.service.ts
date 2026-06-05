@@ -1,5 +1,7 @@
+import { IsNull } from "typeorm";
 import { AppDataSource } from "../db";
 import { Process } from "../entities/Process";
+import { dataExists } from "../utils";
 
 const processRepo = AppDataSource.getRepository(Process);
 
@@ -12,5 +14,13 @@ export class ProcessService {
             processId: id,
             secret: secret
         });
+    }
+
+    static async getProcesses(){
+        return dataExists(
+            await processRepo.find({
+                take: 250
+            })
+        )
     }
 }

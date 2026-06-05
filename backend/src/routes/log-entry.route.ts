@@ -7,6 +7,7 @@ import type { DigestedLogEntry } from "../models/digested-log-entry.model";
 import { LogEntryService } from "../services/log-entry.service";
 import { ProcessService } from "../services/process.service";
 import fs from 'fs'
+import type { LogEntry } from "../entities/LogEntry";
 
 export const LogEntryRoute = Router()
 
@@ -30,13 +31,27 @@ LogEntryRoute.get('/fetch', async (req: any, res) => {
         const limit = parseInt(req.query.limit as string) || 10;
 
         return LogEntryService.getLogsPagenated(limit, page);
-    })
+    }) 
 })
 
 LogEntryRoute.get('/fetch-singular/:id', async (req: any, res) => {
     await defineRequest(res, async ()=>{
         const { id } = req.params;
+        return await LogEntryService.getLogById(id);
+    })
+})
+
+LogEntryRoute.delete('/delete/:id', async (req: any, res) => {
+    await defineRequest(res, async ()=>{
+        const { id } = req.params;
         console.log(id)
-        return LogEntryService.getLogById(id);
+        return LogEntryService.deleteLogById(id);
+    })
+})
+
+LogEntryRoute.put('/update/', async (req: any, res) => {
+    await defineRequest(res, async ()=>{
+        const request: LogEntry = req.body;
+        await LogEntryService.updateLogEntry(request);
     })
 })

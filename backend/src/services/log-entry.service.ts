@@ -6,6 +6,8 @@ import type { LogLevel } from "../models/log-level.model";
 import type { Pagenated } from "../models/pagenated.model";
 import type { DigestRequest } from "../models/request/logentry/digest-request.model";
 import ollama from 'ollama';
+import { dataExists } from "../utils";
+import type { DeepPartial } from "typeorm";
 
 const logEntryRepo = AppDataSource.getRepository(LogEntry);
 const processRepo = AppDataSource.getRepository(Process);
@@ -45,7 +47,7 @@ export class LogEntryService {
                 importance: true,
             },
             where: {
-                processId: processId
+                processId: processId,
             },
             order: {
                 logEntryId: "DESC"
@@ -75,16 +77,35 @@ export class LogEntryService {
     }
 
     static async getLogById(id: number){
-        return await logEntryRepo.findOne({
-            where:{logEntryId: id},
-            relations:{
-                process: {
-                    server: {
-                        location: true
+        return dataExists(
+            await logEntryRepo.findOne({
+                where:{logEntryId: id},
+                relations:{
+                    process: {
+                        server: {
+                            location: true
+                        }
                     }
-                }
-            }
-        })
+                },
+                withDeleted: true
+            })
+        )
+    }
+
+    static async deleteLogById(id: number){
+        await logEntryRepo.softDelete(id)
+    }
+
+    static async updateLogEntry(logEntry: LogEntry){
+        const baseLogEntry: LogEntry = await this.getLogById(logEntry.logEntryId);
+
+        // Ensure only safe stuff can be saved
+        const newLog: DeepPartial<LogEntry> = logEntry;
+        newLog.process = undefined;
+
+        await logEntryRepo.save(
+            newLog
+        )
     }
 
     static async processLogEntry(request: DigestRequest) {

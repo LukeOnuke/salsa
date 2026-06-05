@@ -1,5 +1,6 @@
 import {
     Column,
+    DeleteDateColumn,
     Entity,
     OneToMany,
     PrimaryGeneratedColumn,
@@ -19,6 +20,9 @@ export class Location {
 
     @Column("varchar", { name: "city", length: 50, nullable: true })
     city: string | null;
+
+    @DeleteDateColumn()
+    deletedAt: Date;
 
     @Column("varchar", { name: "country", length: 128, nullable: true })
     country: string | null;
