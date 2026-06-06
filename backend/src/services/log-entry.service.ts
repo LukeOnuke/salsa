@@ -6,11 +6,10 @@ import type { LogLevel } from "../models/log-level.model";
 import type { Pagenated } from "../models/pagenated.model";
 import type { DigestRequest } from "../models/request/logentry/digest-request.model";
 import ollama from 'ollama';
-import { dataExists } from "../utils";
-import type { DeepPartial } from "typeorm";
+import { dataExists, getPagenated } from "../utils";
+import type { DeepPartial, Repository } from "typeorm";
 
-const logEntryRepo = AppDataSource.getRepository(LogEntry);
-const processRepo = AppDataSource.getRepository(Process);
+const logEntryRepo: Repository<LogEntry> = AppDataSource.getRepository(LogEntry);
 
 export class LogEntryService {
     /**
@@ -55,32 +54,25 @@ export class LogEntryService {
         });
     }
 
-    static async getLogsPagenated(pageSize: number, pageNumber: number): Promise<Pagenated<LogEntry>>{
-        const [logs, totalItems] = await logEntryRepo.findAndCount({
-            skip: (pageNumber - 1) * pageSize,  // reduce 1 from page no.
-                                                // so that page count
-                                                // starts from one
-            take: pageSize,
-            relations: {
+    static async getLogsPagenated(pageSize: number, pageNumber: number): Promise<Pagenated<LogEntry>> {
+        return getPagenated(
+            logEntryRepo,
+            {
                 process: true
             },
-            order: {
+            {
                 logEntryId: "DESC"
-            }
-        })
-
-        return {
-            currentPage: pageNumber,
-            totalPages: totalItems / pageSize,
-            entries: logs
-        } as Pagenated<LogEntry>
+            },
+            pageSize,
+            pageNumber
+        )
     }
 
-    static async getLogById(id: number){
+    static async getLogById(id: number) {
         return dataExists(
             await logEntryRepo.findOne({
-                where:{logEntryId: id},
-                relations:{
+                where: { logEntryId: id },
+                relations: {
                     process: {
                         server: {
                             location: true
@@ -92,19 +84,15 @@ export class LogEntryService {
         )
     }
 
-    static async deleteLogById(id: number){
+    static async deleteLogById(id: number) {
         await logEntryRepo.softDelete(id)
     }
 
-    static async updateLogEntry(logEntry: LogEntry){
+    static async updateLogEntry(logEntry: LogEntry) {
         const baseLogEntry: LogEntry = await this.getLogById(logEntry.logEntryId);
 
-        // Ensure only safe stuff can be saved
-        const newLog: DeepPartial<LogEntry> = logEntry;
-        newLog.process = undefined;
-
         await logEntryRepo.save(
-            newLog
+            logEntry
         )
     }
 

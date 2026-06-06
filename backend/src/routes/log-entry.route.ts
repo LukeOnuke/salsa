@@ -1,12 +1,8 @@
 import { Router } from "express";
 import { defineRequest } from "../utils";
-import ollama from 'ollama';
 import type { DigestRequest } from "../models/request/logentry/digest-request.model";
-import type { DigestResponseBody } from "../models/response/logentry/digest-response.model";
-import type { DigestedLogEntry } from "../models/digested-log-entry.model";
 import { LogEntryService } from "../services/log-entry.service";
 import { ProcessService } from "../services/process.service";
-import fs from 'fs'
 import type { LogEntry } from "../entities/LogEntry";
 
 export const LogEntryRoute = Router()

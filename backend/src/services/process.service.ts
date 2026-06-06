@@ -1,7 +1,8 @@
-import { IsNull } from "typeorm";
+import { IsNull, type DeepPartial } from "typeorm";
 import { AppDataSource } from "../db";
 import { Process } from "../entities/Process";
-import { dataExists } from "../utils";
+import { dataExists, getPagenated } from "../utils";
+import type { Pagenated } from "../models/pagenated.model";
 
 const processRepo = AppDataSource.getRepository(Process);
 
@@ -21,6 +22,38 @@ export class ProcessService {
             await processRepo.find({
                 take: 250
             })
+        )
+    }
+
+    static async getProcessesPagenated(pageSize: number, pageNumber: number): Promise<Pagenated<Process>> {
+        return getPagenated(
+            processRepo,
+            {
+                server: true
+            },
+            {
+                processId: "DESC"
+            },
+            pageSize,
+            pageNumber
+        )
+    }
+
+    static async getProcessById(id: number){
+        return dataExists(
+            processRepo.findOne({
+                where: {
+                    processId: id
+                }
+            })
+        )
+    }
+
+    static async updateProcessEntry(process: Process) {
+        await this.getProcessById(process.processId);
+
+        await processRepo.save(
+            process
         )
     }
 }

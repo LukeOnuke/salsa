@@ -8,6 +8,8 @@ import { UserRoute } from './routes/user.route'
 import { LogEntryRoute } from './routes/log-entry.route'
 import oolama from 'ollama'
 import { ProcessRoute } from './routes/process.route'
+import { LocationRoute } from './routes/location.route'
+import { ServerRoute } from './routes/server.route'
 
 const app = express()
 app.use(cors())
@@ -20,6 +22,8 @@ app.use(UserService.validateToken)
 app.use('/api/user', UserRoute)
 app.use('/api/logentry', LogEntryRoute)
 app.use('/api/process', ProcessRoute)
+app.use('/api/location', LocationRoute)
+app.use('/api/server', ServerRoute)
 
 // 404 Not Found
 app.get('{/*path}', function (req, res) {
