@@ -57,6 +57,11 @@ export function showConfirm(message: string, callback: Function, showConfirmatio
     })
 }
 
+let debug = false;
 export function isDebugging(): boolean{
-    return false;
+    return debug;
+}
+
+export function setDebug(isDebug: boolean): void{
+    debug = isDebug;
 }

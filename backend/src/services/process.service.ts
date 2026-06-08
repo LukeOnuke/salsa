@@ -44,6 +44,11 @@ export class ProcessService {
             processRepo.findOne({
                 where: {
                     processId: id
+                },
+                relations: {
+                    server: {
+                        location: true
+                    }
                 }
             })
         )
@@ -55,5 +60,13 @@ export class ProcessService {
         await processRepo.save(
             process
         )
+    }
+
+    static async createProcess(process: Process){
+        const partialProcess: DeepPartial<Process> = process;
+        partialProcess.processId = undefined
+        partialProcess.secret = undefined
+        
+        await processRepo.save(partialProcess);
     }
 }

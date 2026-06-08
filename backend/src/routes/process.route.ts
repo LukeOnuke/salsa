@@ -33,3 +33,10 @@ ProcessRoute.put('/update/', async (req: any, res) => {
         await ProcessService.updateProcessEntry(request);
     })
 })
+
+ProcessRoute.put('/create/', async (req: any, res) => {
+    await defineRequest(res, async ()=>{
+        const request: Process = req.body;
+        await ProcessService.createProcess(request);
+    })
+})

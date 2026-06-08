@@ -1,8 +1,8 @@
-import type { Location } from "./location.model";
+import type { LocationModel } from "./location.model";
 
-export interface Server{
+export interface ServerModel{
     serverId: number,
     name: string,
     locationId: number,
-    location: Location,
+    location: LocationModel,
 }

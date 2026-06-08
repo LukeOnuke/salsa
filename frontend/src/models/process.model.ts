@@ -1,9 +1,9 @@
-import type { Server } from "./server.model";
+import type { ServerModel } from "./server.model";
 
-export interface Process{
+export interface ProcessModel{
     processId: number,
     name: string,
     serverId: number,
-    server: Server,
+    server: ServerModel,
     secret: string
 }

@@ -40,3 +40,10 @@ ServerRoute.put('/update/', async (req: any, res) => {
         await ServerService.updateServer(request);
     });
 });
+
+ServerRoute.put('/create/', async (req: any, res) => {
+    await defineRequest(res, async () => {
+        const request: Server = req.body;
+        await ServerService.createServer(request);
+    });
+});

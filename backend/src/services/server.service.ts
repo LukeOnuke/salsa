@@ -2,7 +2,7 @@ import { AppDataSource } from "../db";
 import { Server } from "../entities/Server";
 import { dataExists, getPagenated } from "../utils";
 import type { Pagenated } from "../models/pagenated.model";
-import type { Repository } from "typeorm";
+import type { DeepPartial, Repository } from "typeorm";
 
 const serverRepo: Repository<Server> = AppDataSource.getRepository(Server);
 
@@ -44,5 +44,11 @@ export class ServerService {
     static async updateServer(server: Server) {
         await this.getServerById(server.serverId);
         await serverRepo.save(server);
+    }
+
+    static async createServer(server: Server){
+        const partialServer: DeepPartial<Server> = server;
+        partialServer.serverId = undefined
+        await serverRepo.save(partialServer);
     }
 }

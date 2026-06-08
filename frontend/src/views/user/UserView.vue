@@ -2,9 +2,7 @@
 import Loading from '@/components/Loading.vue';
 import Navigation from '@/components/Navigation.vue';
 import { useLogout } from '@/hooks/logout.hook';
-import type { BookmarkModel } from '@/models/bookmark.model';
 import type { UserModel } from '@/models/user.model';
-import { BookmarkService } from '@/services/bookmark.service';
 import { UserService } from '@/services/user.service';
 import { formatDate, showConfirm } from '@/utils';
 import { ref } from 'vue';
@@ -15,45 +13,35 @@ UserService.getSelfUser()
     .then(rsp => user.value = rsp.data)
     .catch(e => logout(e))
 
-function deleteBookmark(model: BookmarkModel) {
-    showConfirm(`Obrisi sačuvan film ${model.movie.title}?`, () => {
-        BookmarkService.deleteBookmark(model.bookmarkId)
-            .then(rsp => {
-                if (user.value == null) return
-                user.value!.bookmarks = user.value?.bookmarks.filter(b =>
-                    b.bookmarkId !== model.bookmarkId
-                )
-            })
-            .catch(e => logout(e))
-    })
-}
 </script>
 
 <template>
-    <Navigation />
-    <div class="row mt-3" v-if="user">
-        <div class="col-12 col-md-9">
-            <h3>Korisnički nalog</h3>
-            <table class="table table-striped">
-                <tbody>
-                    <tr>
-                        <th scope="row">Ime:</th>
-                        <td>{{ user.firstName }}</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Prezime:</th>
-                        <td>{{ user.lastName }}</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Email:</th>
-                        <td>{{ user.email }}</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Telefon:</th>
-                        <td>{{ user.phone }}</td>
-                    </tr>
-                </tbody>
-            </table>
+    <div class="" v-if="user">
+        <div class="card">
+            <div class="card-header">
+                User
+            </div>
+            <main class="card-body">
+                <div class="mb-3">
+                    <p class="form-label">Name:</p>
+                    <p class="form-control">{{ user.firstName }}</p>
+                </div>
+
+                <div class="mb-3">
+                    <p class="form-label">Sirname:</p>
+                    <p class="form-control">{{ user.lastName }}</p>
+                </div>
+
+                <div class="mb-3">
+                    <p class="form-label">Email:</p>
+                    <p class="form-control">{{ user.email }}</p>
+                </div>
+
+                <div class="mb-3">
+                    <p class="form-label">Tel:</p>
+                    <p class="form-control">{{ user.phone }}</p>
+                </div>
+            </main>
         </div>
     </div>
     <Loading v-else />

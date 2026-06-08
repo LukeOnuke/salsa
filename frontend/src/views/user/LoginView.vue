@@ -27,11 +27,12 @@ function doLogin() {
 }
 </script>
 
-<template>
-    <Navigation />
-    <div class="auth">
-        <h3 class="text-center">PSEP 2025<br>PRIJAVI SE</h3>
-        <form v-on:submit.prevent="doLogin">
+<template class="">
+    <div class="card">
+        <div class="card-header">
+            <h1 class="card-title">Log In to your account</h1>
+        </div>
+        <form v-on:submit.prevent="doLogin" class="card-body">
             <div class="mb-3">
                 <label for="email" class="form-label">Email:</label>
                 <input type="email" class="form-control" id="email" v-model="email">
@@ -42,12 +43,24 @@ function doLogin() {
             </div>
             <div class="btn-group">
                 <button type="submit" class="btn btn-primary">
-                    <i class="fa-solid fa-arrow-up-right-from-square"></i> Prijavi se
+                    <i class="fa-solid fa-arrow-up-right-from-square"></i> Log In
                 </button>
                 <RouterLink class="btn btn-outline-secondary" to="/register">
-                    <i class="fa-solid fa-user-plus"></i> Napravi novi nalog
+                    <i class="fa-solid fa-user-plus"></i> Make a new account
                 </RouterLink>
             </div>
         </form>
     </div>
 </template>
+
+<style>
+.tiled-element {
+    background-image: url('@/assets/bg.svg');
+    background-repeat: repeat;
+    /* This is the default behavior */
+}
+
+.h-fill {
+    height: 50vh;
+}
+</style>

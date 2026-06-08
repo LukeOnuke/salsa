@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import Navigation from '@/components/Navigation.vue';
-import { LogLevel, type LogEntry } from '@/models/logentry.model';
+import { LogLevel, type LogEntryModel } from '@/models/logentry.model';
 import { ref } from 'vue';
 import type { Pagenated } from "@/models/pagenated.model";
 import { LogEntryService } from '@/services/logentry.service';
 import PagenatedNavigation from '@/components/PagenatedNavigation.vue';
 
-const logs = ref<Pagenated<LogEntry>>();
+const logs = ref<Pagenated<LogEntryModel>>();
 
 function getLogs(pageSize: number, pageNumber: number) {
     LogEntryService.getLogsPagenated(pageSize, pageNumber).then(rsp => {
@@ -56,7 +56,7 @@ getLogs(10, 1)
                 </div>
                 <div class="card-footer d-flex align-items-center">
                     <span class="">{{ new Date(log.createdAt).toLocaleString("sr-RS") }}</span>
-                    <RouterLink :to="`/log/${log.logEntryId}`" class="btn btn-primary ms-auto" role="button">
+                    <RouterLink :to="`/log/view/${log.logEntryId}`" class="btn btn-primary ms-auto" role="button">
                         <i class="fa-solid fa-right-from-bracket"></i> More
                     </RouterLink>
                 </div>

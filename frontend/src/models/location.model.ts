@@ -1,4 +1,4 @@
-export interface Location{
+export interface LocationModel{
     locationId: number,
     shorthand: string,
     address: string | null,

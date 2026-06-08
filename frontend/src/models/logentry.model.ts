@@ -1,6 +1,6 @@
-import type { Process } from "./process.model";
+import type { ProcessModel } from "./process.model";
 
-export interface LogEntry{
+export interface LogEntryModel{
     logEntryId: number,
     content: string,
     isImportant: boolean,
@@ -8,7 +8,7 @@ export interface LogEntry{
     severity: LogLevel,
     createdAt: string,
     processId: number,
-    process: Process
+    process: ProcessModel
 }
 
 export enum LogLevel{

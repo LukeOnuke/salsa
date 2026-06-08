@@ -80,6 +80,8 @@ export class UserService {
 
         if (data == null)
             throw new Error('NOT_FOUND')
+
+        return data;
     }
 
     static async validateToken(req: any, res: Response, next: Function) {

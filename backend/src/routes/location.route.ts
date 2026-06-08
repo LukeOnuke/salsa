@@ -40,3 +40,11 @@ LocationRoute.put('/update/', async (req: any, res) => {
         await LocationService.updateLocation(request);
     });
 });
+
+
+LocationRoute.put('/create/', async (req: any, res) => {
+    await defineRequest(res, async () => {
+        const request: Location = req.body;
+        await LocationService.createLocation(request);
+    });
+});

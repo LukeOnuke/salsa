@@ -2,7 +2,7 @@ import { AppDataSource } from "../db";
 import { Location } from "../entities/Location";
 import { dataExists, getPagenated } from "../utils";
 import type { Pagenated } from "../models/pagenated.model";
-import type { Repository } from "typeorm";
+import type { DeepPartial, Repository } from "typeorm";
 
 const locationRepo: Repository<Location> = AppDataSource.getRepository(Location);
 
@@ -43,5 +43,11 @@ export class LocationService {
         const baseLocation: Location = await this.getLocationById(location.locationId);
 
         await locationRepo.save(location);
+    }
+
+    static async createLocation(location: Location){
+        const partialLocation: DeepPartial<Location> = location;
+        partialLocation.locationId = undefined
+        await locationRepo.save(partialLocation);
     }
 }
