@@ -45,9 +45,9 @@ function doLogin() {
                 <button type="submit" class="btn btn-primary">
                     <i class="fa-solid fa-arrow-up-right-from-square"></i> Log In
                 </button>
-                <RouterLink class="btn btn-outline-secondary" to="/register">
+                <!-- <RouterLink class="btn btn-outline-secondary" to="/register">
                     <i class="fa-solid fa-user-plus"></i> Make a new account
-                </RouterLink>
+                </RouterLink> -->
             </div>
         </form>
     </div>

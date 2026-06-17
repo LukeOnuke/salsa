@@ -10,11 +10,12 @@ UserRoute.post('/login', async (req, res) => {
     )
 })
 
-UserRoute.post('/register', async (req, res) => {
-    await defineRequest(res, async () =>
-        await UserService.register(req.body)
-    )
-})
+// Commented this out to prevent registration of new accounts.
+// UserRoute.post('/register', async (req, res) => {
+//     await defineRequest(res, async () =>
+//         await UserService.register(req.body)
+//     )
+// })
 
 UserRoute.get('/self', async (req: any, res) => {
     await defineRequest(res, async () =>

@@ -5,6 +5,7 @@ import { ref } from 'vue';
 import type { Pagenated } from "@/models/pagenated.model";
 import { LogEntryService } from '@/services/logentry.service';
 import PagenatedNavigation from '@/components/PagenatedNavigation.vue';
+import CommandButtons from '@/components/CommandButtons.vue';
 
 const logs = ref<Pagenated<LogEntryModel>>();
 
@@ -46,19 +47,19 @@ getLogs(10, 1)
 
         <main v-if="logs">
             <section class="card mb-3" v-for="log in logs.entries">
-                <div class="card-header text-white"
-                    v-bind:class="{ 'bg-info': log.severity === LogLevel.INFO, 'bg-warning': log.severity === LogLevel.WARN, 'bg-danger': log.severity === LogLevel.ERROR, 'bg-purple': log.severity === LogLevel.FATAL }">
-                    <span class="badge bg-secondary">{{ log.process.name }}</span> <span>{{ log.severity }} | {{
-                        log.importance }}</span>
+                <div class="card-header d-flex align-items-center">
+
+                    <span class="badge bg-secondary">{{ log.process.name }}</span> 
+                    <span>{{ log.severity }} | {{log.importance }}</span>
+
+                    <CommandButtons class="" entityName="log" :entityId="log.logEntryId" :enableInfo="true" :enableEdit="true" />
                 </div>
                 <div class="card-body">
                     <pre>{{ sanitize(log.content) }}</pre>
                 </div>
-                <div class="card-footer d-flex align-items-center">
+                <div class="card-footer text-white"
+                v-bind:class="{ 'bg-info': log.severity === LogLevel.INFO, 'bg-warning': log.severity === LogLevel.WARN, 'bg-danger': log.severity === LogLevel.ERROR, 'bg-purple': log.severity === LogLevel.FATAL }">
                     <span class="">{{ new Date(log.createdAt).toLocaleString("sr-RS") }}</span>
-                    <RouterLink :to="`/log/view/${log.logEntryId}`" class="btn btn-primary ms-auto" role="button">
-                        <i class="fa-solid fa-right-from-bracket"></i> More
-                    </RouterLink>
                 </div>
             </section>
             <PagenatedNavigation :onPrevious="getPrevious" :onNext="getNext" :pagenatedData="logs" />

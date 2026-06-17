@@ -53,7 +53,7 @@ function cancel() {
         <section class="card">
             <pre v-if="isDebugging()">{{ newLocation }}</pre>
             <div class="card-header d-flex align-items-center">
-                <span class="fs-4">Location</span>
+                <span class="fs-4">Edit Location</span>
 
                 <CommandButtons entityName="location" :entityId="location.locationId" :enableInfo="true"
                     :enableEdit="false" :deleteFunction="deleteLocation" />

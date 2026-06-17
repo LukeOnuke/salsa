@@ -60,7 +60,7 @@ function cancel() {
         <section class="card">
             <pre v-if="isDebugging()">{{ newProcess }}</pre>
             <div class="card-header d-flex align-items-center">
-                <span class="fs-4">Process</span>
+                <span class="fs-4">Edit Process</span>
 
                 <CommandButtons entityName="process" :entityId="process.processId" :enableInfo="true" :enableEdit="false"
                     :deleteFunction="deleteProcess" />

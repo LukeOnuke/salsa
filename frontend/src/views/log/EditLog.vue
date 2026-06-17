@@ -9,6 +9,7 @@ import { VueDatePicker } from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css'
 import type { ProcessModel } from '@/models/process.model';
 import { ProcessService } from '@/services/process.service';
+import CommandButtons from '@/components/CommandButtons.vue';
 
 const route = useRoute()
 const router = useRouter()
@@ -64,12 +65,9 @@ function cancel(){
             <div class="card-header d-flex align-items-center">
                 <span class="fs-4 fw-bold">Log Entry</span>
 
-                <button v-on:click="deleteLog()" class="btn btn-danger ms-auto" role="button">
-                    <i class="fa-regular fa-trash-can"></i>
-                </button>
-                <RouterLink :to="`/log/${log.logEntryId}`" class="btn btn-info ms-3" role="button">
-                    <i class="fa-solid fa-circle-info"></i>
-                </RouterLink>
+                
+                <CommandButtons entityName="log" :entityId="log.logEntryId" :enableInfo="true"
+                        :enableEdit="false" :deleteFunction="deleteLog" />
             </div>
             <form class="card-body" v-on:submit.prevent="saveLogEntry">
                 <div class="mb-3">

@@ -8,6 +8,7 @@ import Swal from 'sweetalert2';
 import LocationComponent from '@/components/LocationComponent.vue';
 import ServerComponent from '@/components/ServerComponent.vue';
 import ProcessComponent from '@/components/ProcessComponent.vue';
+import CommandButtons from '@/components/CommandButtons.vue';
 
 const route = useRoute()
 const router = useRouter()
@@ -26,9 +27,8 @@ LogEntryService.getLogById(id).then(resp => log.value = resp.data)
                     <div class="card-header d-flex align-items-center">
                         <span class="fs-4 fw-bold">Log Entry</span>
 
-                        <RouterLink :to="`/log/edit/${log.logEntryId}`" class="btn btn-success ms-auto" role="button">
-                            <i class="fa-regular fa-pen-to-square"></i>
-                        </RouterLink>
+                        <CommandButtons entityName="log" :entityId="log.logEntryId" :enableInfo="false"
+                        :enableEdit="true" />
                     </div>
                     <div class="card-body">
                         <p>Severity: <span class="fw-bold">{{ log.severity }}</span></p>

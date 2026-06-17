@@ -10,7 +10,9 @@ export function useLogout() {
             showError(e.message)
         }
         AuthService.clearTokens()
-        router.push('/login')
+        router.push('/login').then(() => {
+            router.go(0);
+        })
     }
 
     return logout

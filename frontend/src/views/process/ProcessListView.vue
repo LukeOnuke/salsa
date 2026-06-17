@@ -36,7 +36,8 @@ getProcesses(10, 1)
                     <h1>Pagenated list of Process</h1>
                     <p>Sorted by id desceding.</p>
                 </div>
-                <RouterLink to="/process/new" class="ms-auto btn btn-primary d-flex align-items-center justify-content-center p-0">
+                <RouterLink to="/process/new"
+                    class="ms-auto btn btn-primary d-flex align-items-center justify-content-center p-0">
                     <i class="fa-solid fa-plus fs-2 m-2"></i>
                 </RouterLink>
             </div>
@@ -48,7 +49,8 @@ getProcesses(10, 1)
                 <div class="card-header d-flex align-items-center">
                     <span class="fs-4">Process</span>
 
-                    <CommandButtons entityName="process" :entityId="process.processId" :enableInfo="true" :enableEdit="true" />
+                    <CommandButtons entityName="process" :entityId="process.processId" :enableInfo="true"
+                        :enableEdit="true" />
                 </div>
                 <div class="card-body">
                     <p>Process name <span class="fw-bold">{{ process.name }}</span></p>

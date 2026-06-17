@@ -44,7 +44,7 @@ function cancel() {
         <section class="card">
             <pre v-if="isDebugging()">{{ newServer }}</pre>
             <div class="card-header d-flex align-items-center">
-                <span class="fs-4">Server</span>
+                <span class="fs-4">New Server</span>
             </div>
             <form class="card-body">
 

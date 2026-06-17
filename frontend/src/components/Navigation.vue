@@ -2,17 +2,30 @@
 import { AuthService } from '@/services/auth.service';
 import { useLogout } from '@/hooks/logout.hook';
 import { isDebugging, setDebug } from '@/utils';
+import { useRouter } from 'vue-router';
+import { onDeactivated, onMounted, onUnmounted, onUpdated, ref } from 'vue';
 
 const logout = useLogout()
+const refreshToken = ref<string | null>(AuthService.getRefreshToken());
+const router = useRouter()
 
-function debugToggler(payload: PointerEvent){
-    if(payload.shiftKey && payload.altKey) {
+function debugToggler(payload: PointerEvent) {
+    if (payload.shiftKey && payload.altKey) {
         const futureDebugState = !isDebugging();
-        
+
         setDebug(futureDebugState)
-        alert(`Debug mode is now ${futureDebugState? "enabled" : "disabled"}!`)
+        alert(`Debug mode is now ${futureDebugState ? "enabled" : "disabled"}!`)
     }
 }
+
+const unregister = router.afterEach(() => {
+    refreshToken.value = AuthService.getRefreshToken();
+    console.log("Navigation: Refreshed refreshToken. (Used to indicate if user is logged in.)")
+})
+
+onUnmounted(() => {
+    unregister();
+})
 </script>
 
 <template>
@@ -25,7 +38,7 @@ function debugToggler(payload: PointerEvent){
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0" v-if="refreshToken">
                     <li class="nav-item">
                         <RouterLink :to="'/'" class="nav-link">
                             Home
@@ -51,9 +64,26 @@ function debugToggler(payload: PointerEvent){
                             Locations
                         </RouterLink>
                     </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            User
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <RouterLink class="dropdown-item" to="/user">My account</RouterLink>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <div class="dropdown-item">
+                                    <button type="button" class="btn btn-danger w-100" @click="logout">Logout</button>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
                 </ul>
             </div>
-            <RouterLink class="nav-link active" to="/user" v-if="AuthService.getRefreshToken()">
+            <RouterLink class="nav-link active" to="/user" v-if="refreshToken">
                 <i class="fa-solid fa-user"></i> {{ AuthService.getUserEmail() }}
             </RouterLink>
         </div>
