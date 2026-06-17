@@ -89,7 +89,8 @@ JWT_REFRESH_TTL=7d
 
 **Аутентификација:** Нема (Whitelisted)
 
-**Тело захтева (Body):** ```json
+**Тело захтева (Body):**
+```json
 {
 "email": "user@example.com",
 "password": "secretpassword"
