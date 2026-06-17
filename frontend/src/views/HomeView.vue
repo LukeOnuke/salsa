@@ -50,7 +50,7 @@ getLogs(10, 1)
                 <div class="card-header d-flex align-items-center">
 
                     <span class="badge bg-secondary">{{ log.process.name }}</span> 
-                    <span>{{ log.severity }} | {{log.importance }}</span>
+                    <span class="ms-3">{{ log.severity }} | Importance: <span class="fw-bold">{{log.importance }}</span></span>
 
                     <CommandButtons class="" entityName="log" :entityId="log.logEntryId" :enableInfo="true" :enableEdit="true" />
                 </div>

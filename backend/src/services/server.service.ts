@@ -43,7 +43,9 @@ export class ServerService {
 
     static async updateServer(server: Server) {
         await this.getServerById(server.serverId);
-        await serverRepo.save(server);
+        const partialServer: DeepPartial<Server> = server;
+        partialServer.location = undefined
+        await serverRepo.save(partialServer);
     }
 
     static async createServer(server: Server){

@@ -56,9 +56,10 @@ export class ProcessService {
 
     static async updateProcessEntry(process: Process) {
         await this.getProcessById(process.processId);
-
+        const partialProcess: DeepPartial<Process> = process;
+        partialProcess.server = undefined
         await processRepo.save(
-            process
+            partialProcess
         )
     }
 
@@ -68,5 +69,9 @@ export class ProcessService {
         partialProcess.secret = undefined
         
         await processRepo.save(partialProcess);
+    }
+
+    static async deleteProcessById(id: number) {
+        await processRepo.softDelete(id);
     }
 }

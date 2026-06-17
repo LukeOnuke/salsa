@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { AuthService } from '@/services/auth.service';
 import Navigation from '@/components/Navigation.vue';
-import { ref } from 'vue';
+import { onMounted, onUnmounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { UserService } from '@/services/user.service';
 import { showError } from '@/utils';
@@ -25,6 +25,16 @@ function doLogin() {
         })
         .catch(e => showError('Neispravan mejl ili lozinka'))
 }
+
+// Horror and terror cause i wanted the login to look like those old
+// enterprise aplications. Whoops!
+onMounted(() => {
+  document.body.classList.add('login-body-styling')
+})
+
+onUnmounted(() => {
+  document.body.classList.remove('login-body-styling')
+})
 </script>
 
 <template class="">
@@ -51,6 +61,16 @@ function doLogin() {
             </div>
         </form>
     </div>
+
+    <div class="alert alert-warning mt-3" role="alert">
+        <p>Abuse of this portal is punishable by law!</p>
+        <p>
+            If you do not already own a user account, contact the administrator 
+            responsible for mantaining the instance of this program. If you
+            are the administrator that needs to create that account, 
+            <a href="">consult the documentation on how to create a account.</a>
+        </p>
+    </div>
 </template>
 
 <style>
@@ -62,5 +82,9 @@ function doLogin() {
 
 .h-fill {
     height: 50vh;
+}
+
+body.login-body-styling{
+    background-image: url('@/assets/bg.svg');
 }
 </style>

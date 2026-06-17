@@ -90,9 +90,12 @@ export class LogEntryService {
 
     static async updateLogEntry(logEntry: LogEntry) {
         const baseLogEntry: LogEntry = await this.getLogById(logEntry.logEntryId);
+        const partialLogEntry: DeepPartial<LogEntry> = logEntry;
+        
+        partialLogEntry.process = undefined
 
         await logEntryRepo.save(
-            logEntry
+            partialLogEntry
         )
     }
 
@@ -112,7 +115,7 @@ export class LogEntryService {
             messages: [
                 {
                     role: 'system',
-                    content: "You are a expert in server administration at a high earning position. Your job is to decide if a log entry is important enough to save, decide if its a error and rate its importance. Your main mission is to cut out all the unimportant log entries by marking them as unimportant to make the job easier for other system administrators. You respond only in JSON which is structured like this: {\"important\":[boolean], \"severity:\"[INFO|WARN|ERROR|FATAL]\" \"importance\":[0-100]}. The logentry is:"
+                    content: "You are a expert in server administration at a high earning position. Your job is to decide if a log entry is important enough to save, decide if its a error and rate its importance. You respond only in JSON which is structured like this: {\"important\":[boolean], \"severity:\"[INFO|WARN|ERROR|FATAL]\" \"importance\":[0-100]}. The logentry is:"
                 },
                 {
                     role: 'user',

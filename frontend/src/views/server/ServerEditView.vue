@@ -69,7 +69,7 @@ function cancel() {
 
                 <div class="mb-3">
                     <label for="server-id" class="form-label">Id </label>
-                    <input class="form-control" type="number" name="" id="server-id" :value="new Number(id)" disabled>
+                    <input class="form-control" type="number" name="" id="server-id" :value="new Number(id)" disabled readonly>
                 </div>
 
                 <div class="mb-3">

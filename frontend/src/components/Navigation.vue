@@ -82,6 +82,9 @@ onUnmounted(() => {
                         </ul>
                     </li>
                 </ul>
+                <span class="text-danger" v-else>
+                    Missing Credentials - <RouterLink to="/login">Log in</RouterLink> to use/navigate the program!
+                </span>
             </div>
             <RouterLink class="nav-link active" to="/user" v-if="refreshToken">
                 <i class="fa-solid fa-user"></i> {{ AuthService.getUserEmail() }}

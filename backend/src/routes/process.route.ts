@@ -40,3 +40,10 @@ ProcessRoute.put('/create/', async (req: any, res) => {
         await ProcessService.createProcess(request);
     })
 })
+
+ProcessRoute.delete('/delete/:id', async (req: any, res) => {
+    await defineRequest(res, async () => {
+        const { id } = req.params;
+        return ProcessService.deleteProcessById(id);
+    });
+});
